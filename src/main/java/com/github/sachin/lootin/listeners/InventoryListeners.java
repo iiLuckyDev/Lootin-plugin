@@ -1,7 +1,6 @@
 package com.github.sachin.lootin.listeners;
 
 import com.github.sachin.lootin.api.LootinInventoryOpenEvent;
-import com.github.sachin.lootin.compat.ValhallaMMOListner;
 import com.github.sachin.lootin.utils.ChestUtils;
 import com.github.sachin.lootin.utils.ContainerType;
 import com.github.sachin.lootin.utils.LConstants;

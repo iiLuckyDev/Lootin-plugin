@@ -1,9 +1,7 @@
 package com.github.sachin.lootin.commands;
 
 import com.github.sachin.lootin.Lootin;
-import com.github.sachin.lootin.compat.PaperCompat;
 import com.github.sachin.lootin.compat.rwg.RWGCompat;
-import com.github.sachin.lootin.compat.rwg.util.inventory.RwgInventory;
 import com.github.sachin.lootin.utils.*;
 
 import com.github.sachin.lootin.utils.storage.LootinContainer;
@@ -103,7 +101,7 @@ public class Commands extends BaseCommand{
     }
 
     private void handleMinecartContainer(Player player) {
-        RayTraceResult raytrace = player.getWorld().rayTraceEntities(player.getEyeLocation(), player.getEyeLocation().getDirection(), 4, (en) -> en.getType() == EntityType.MINECART_CHEST);
+        RayTraceResult raytrace = player.getWorld().rayTraceEntities(player.getEyeLocation(), player.getEyeLocation().getDirection(), 4, (en) -> en.getType() == EntityType.CHEST_MINECART);
         if (raytrace != null && raytrace.getHitEntity() != null) {
             StorageMinecart minecart = (StorageMinecart) raytrace.getHitEntity();
             if (!minecart.getInventory().isEmpty()) {
@@ -165,9 +163,8 @@ public class Commands extends BaseCommand{
         LootinContainer lootinContainer = getTargetContainer(player);
 
         if(lootinContainer != null){
-            if(plugin.isRunningPaper){
-                PaperCompat.sendPlayerMessage(lootinContainer,player);
-            }
+            player.sendMessage(plugin.getPrefix() + ChatColor.YELLOW + "ContainerID: " + ChatColor.GOLD + lootinContainer.getContainerID());
+            player.sendMessage(plugin.getPrefix() + ChatColor.YELLOW + "Tracked players: " + ChatColor.GOLD + lootinContainer.getPlayerDataMap().size());
         }
         else{
             plugin.sendPlayerMessage(LConstants.LOOK_AT_CONTAINER, player);
@@ -217,7 +214,7 @@ public class Commands extends BaseCommand{
         LootinContainer lootinContainer = null;
         PersistentDataHolder holder = null;
         RayTraceResult blockRay = player.rayTraceBlocks(4);
-        RayTraceResult entiryRay = player.getWorld().rayTraceEntities(player.getEyeLocation(), player.getEyeLocation().getDirection(), 4,(en) -> en.getType()==EntityType.MINECART_CHEST);
+        RayTraceResult entiryRay = player.getWorld().rayTraceEntities(player.getEyeLocation(), player.getEyeLocation().getDirection(), 4,(en) -> en.getType()==EntityType.CHEST_MINECART);
         if(blockRay != null && blockRay.getHitBlock().getState() instanceof PersistentDataHolder){
             holder = (PersistentDataHolder) blockRay.getHitBlock().getState();
 
@@ -243,10 +240,7 @@ public class Commands extends BaseCommand{
         if(!testRwg(player)) {
             return;
         }
-        RWGCompat compat = plugin.rwgCompat;
-        RwgInventory inventory = new RwgInventory(compat.getHeads(), compat.getApi().getChestStorage());
-        inventory.populate();
-        player.openInventory(inventory.getInventory());
+        player.sendMessage(plugin.getPrefix() + ChatColor.RED + "RWG GUI support is unavailable in this build.");
     }
 
     @Subcommand("rwg elytra")

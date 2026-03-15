@@ -7,6 +7,8 @@ group = 'com.github.sachin.lootin'
 version = '13.6'
 description = 'Loot per player'
 
+layout.buildDirectory.set(file('out'))
+
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
@@ -14,6 +16,7 @@ java {
 }
 
 repositories {
+    mavenLocal()
     mavenCentral()
     maven { url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/' }
     maven { url = 'https://oss.sonatype.org/content/groups/public/' }
@@ -26,25 +29,38 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'dev.folia:folia-api:1.21.1-R0.1-SNAPSHOT'
     compileOnly 'org.spigotmc:spigot-api:1.21.1-R0.1-SNAPSHOT'
     compileOnly 'org.jetbrains:annotations:21.0.1'
 
     implementation 'co.aikar:acf-paper:0.5.1-SNAPSHOT'
-    implementation 'com.github.SachinGorkar:Prilib:1.0'
-    implementation 'com.github.Jeff-Media-GbR:MorePersistentDataTypes:2.4.0'
+    implementation 'com.jeff-media:MorePersistentDataTypes:2.4.0'
 
-    implementation files('lib/CustomStructures-1.9.0.1.jar')
-    implementation files('lib/BetterStructures-1.6.10.jar')
-    implementation files('lib/OhTheDungeon.jar')
+    implementation files('CustomStructures-1.9.1.jar')
+    implementation files('BetterStructures.jar')
+    implementation files('OhTheDungeonsYoullGo-1.21.7.jar')
 
     compileOnly 'me.athlaeos:valhallammo-dist:dev-0.4'
-    compileOnly 'me.clip:placeholderapi:2.10.9'
-    compileOnly 'net.sourcewriters.spigot.rwg:legacy-api:3.0.0'
     compileOnly 'com.syntaxphoenix.syntaxapi:nbt:2.0.13'
     compileOnly 'com.syntaxphoenix.syntaxapi:random:2.0.12'
     compileOnly 'com.comphenix.protocol:ProtocolLib:4.7.0'
     compileOnly 'com.sk89q.worldguard:worldguard-bukkit:7.0.4-SNAPSHOT'
+}
+
+sourceSets {
+    main {
+        java {
+            exclude 'com/github/sachin/lootin/compat/PaperCompat.java'
+            exclude 'com/github/sachin/lootin/compat/ValhallaMMOListner.java'
+            exclude 'com/github/sachin/lootin/compat/scheduler/PaperScheduler.java'
+            exclude 'com/github/sachin/lootin/compat/rwg/LootinAddon.java'
+            exclude 'com/github/sachin/lootin/compat/rwg/LootinLoader.java'
+            exclude 'com/github/sachin/lootin/compat/rwg/LootinParser.java'
+            exclude 'com/github/sachin/lootin/compat/rwg/LootinPlacer.java'
+            exclude 'com/github/sachin/lootin/compat/rwg/listener/**'
+            exclude 'com/github/sachin/lootin/compat/rwg/util/**'
+            exclude 'com/github/sachin/lootin/listeners/StructureGenerateListener.java'
+        }
+    }
 }
 
 tasks.withType(JavaCompile).configureEach {

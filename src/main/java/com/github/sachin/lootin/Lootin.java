@@ -9,10 +9,10 @@ import com.github.sachin.lootin.commands.Commands;
 import com.github.sachin.lootin.compat.*;
 import com.github.sachin.lootin.compat.rwg.RWGCompat;
 import com.github.sachin.lootin.compat.scheduler.BukkitScheduler;
-import com.github.sachin.lootin.compat.scheduler.PaperScheduler;
 import com.github.sachin.lootin.compat.scheduler.Scheduler;
 import com.github.sachin.lootin.compat.scheduler.Task;
 import com.github.sachin.lootin.listeners.*;
+import com.github.sachin.lootin.utils.PlaceholderSupport;
 import com.github.sachin.lootin.utils.*;
 import com.github.sachin.lootin.utils.config.ConfigUpdater;
 import com.github.sachin.lootin.utils.config.WorldManager;
@@ -33,9 +33,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import co.aikar.commands.PaperCommandManager;
-import me.clip.placeholderapi.PlaceholderAPI;
-
-
 public final class Lootin extends JavaPlugin {
 
     private static Lootin plugin;
@@ -97,21 +94,8 @@ public final class Lootin extends JavaPlugin {
         } catch (ClassNotFoundException e) {
             this.isRunningPurpur = false;
         }
-        try{
-
-            Class.forName("io.papermc.paper.threadedregions.scheduler.RegionScheduler");
-            this.isRunningPaper = true;
-            getLogger().info("Running PaperMC...");
-        }catch (ClassNotFoundException ignored){
-            this.isRunningPaper = false;
-        }
-
-        if(isRunningPaper){
-            scheduler = new PaperScheduler();
-        }
-        else{
-            scheduler = new BukkitScheduler();
-        }
+        this.isRunningPaper = false;
+        scheduler = new BukkitScheduler();
         // Setup reflections
 //        VersionProvider.setup();
 
@@ -243,7 +227,7 @@ public final class Lootin extends JavaPlugin {
     public String getMessage(String key,Player player){
         String message = ChatColor.translateAlternateColorCodes('&', getConfig().getString("messages.prefix")+getConfig().getString(key,key));
         if(getServer().getPluginManager().isPluginEnabled("PlaceholderAPI") && player != null){
-            return PlaceholderAPI.setPlaceholders(player, message);
+            return PlaceholderSupport.setPlaceholders(player, message);
         }
         return message;
     }

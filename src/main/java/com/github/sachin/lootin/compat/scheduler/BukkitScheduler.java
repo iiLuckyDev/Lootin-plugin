@@ -1,6 +1,4 @@
 package com.github.sachin.lootin.compat.scheduler;
-
-import io.papermc.paper.threadedregions.scheduler.ScheduledTask;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
 import org.bukkit.Location;

@@ -5,8 +5,6 @@ import com.github.sachin.lootin.Lootin;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
-import me.clip.placeholderapi.PlaceholderAPI;
-
 public enum ContainerType {
     
 
@@ -30,7 +28,7 @@ public enum ContainerType {
         String t = ChatColor.translateAlternateColorCodes('&', plugin.getConfig().getString(title));
 
         if(plugin.getServer().getPluginManager().isPluginEnabled("PlaceholderAPI") && player != null){
-            return PlaceholderAPI.setPlaceholders(player, t);
+            return PlaceholderSupport.setPlaceholders(player, t);
         }
         return t;
     }
